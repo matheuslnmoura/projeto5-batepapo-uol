@@ -1,0 +1,141 @@
+html {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+b{
+    font-weight: 700;
+}
+
+.site-container {
+    width: 100vw;
+    top: 0;
+    position: absolute;
+    height: 100vh;
+    max-width: 450px;
+    margin: auto;
+    background-color: #E5E5E5;
+}
+
+header {
+    width: 100vw;
+    max-width: 450px;
+    height:80px;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+header .container {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+}
+
+header .container button {
+    background-color: transparent;
+    border: none;
+}
+
+main {
+    margin-top: 80px;
+    width: 100%;
+    height: calc(100vh - 80px);
+}
+
+.chat-area {
+    margin-top: 26px;
+    height: calc(100% - 80px);
+    overflow-y: scroll;
+}
+
+.message:nth-child(1) {
+    margin-top: 26px;
+}
+
+.message {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.message .container {
+    width: 95%;
+}
+
+.user-situation {
+    background-color: #dcdcdc;
+}
+
+.public-message {
+    background-color: #fff;
+}
+
+.private-message {
+    background-color: #FFDEDE;
+}
+
+.message .container .time-stamp {
+    color: #aaa;
+}
+
+.input-area {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #fff;
+    height: 80px;
+    display: flex;
+}
+
+.input-area .container {
+    width: 100%;
+    display: flex;
+}
+
+.input-area .container input {
+    outline: none;
+    margin: 0px;
+    border: none;
+    width: 100%;
+    min-height: 100%;
+    padding: 25px 17px;
+    font-size: 18px;
+}
+
+.input-area .container input::placeholder{
+    font-style: italic;
+}
+
+.input-area .container input:-ms-input-placeholder {
+    font-style: italic;
+}
+.input-area .container input::-webkit-input-placeholder {
+    font-style: italic;
+}
+
+.input-area .container button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    width: 26px;
+    height: 26px;
+    margin: 27px 18px;
+    padding: 0;
+}
+
+.input-area .container img {
+    width: 26px;
+}
