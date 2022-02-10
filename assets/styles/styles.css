@@ -1,3 +1,6 @@
+/*-----------General CSS-----------*/
+
+
 html {
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
@@ -16,6 +19,87 @@ body {
     background-color: #ddd;  
     overflow: hidden;  
 }
+
+/*-----------Login Screen CSS-----------*/
+
+.login-screen {
+    width: 100vw;
+    top: 0;
+    height: 100vh;
+    max-width: 450px;
+    margin: auto;
+    background-color: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-screen img {
+    margin-top: 72px;
+    margin-bottom: 94px;
+}
+
+.login-screen input {
+    width:261px;
+    height: 54px;
+    outline: none;
+    font-size: 18px;
+    background-color: #FFFFFF;
+    border: 1px solid #D7D7D7;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.login-screen button {
+    width: 109px;
+    height: 45px;
+    background-color: #E7E7E7;
+    color: #696969;
+    border: none;
+    border-radius: 9px;
+}
+
+.login-screen input::placeholder{
+    text-align: center;
+    color: #aeaeae;
+}
+
+.login-screen input:-ms-input-placeholder {
+    text-align: center;
+    color: #aeaeae;
+}
+.login-screen input::-webkit-input-placeholder {
+    text-align: center;
+    color: #aeaeae;
+
+}
+
+.login-error-modal {
+    width: 60%;
+    height: 300px;
+    background-color: #000d;
+    position: relative;
+    top: -28%;
+    border: 1px solid #DDD;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 30px;
+    opacity: 0;
+    transition: all ease .8s;
+}
+
+
+
+
+
+/*-----------Chat Screen CSS-----------*/
+
 
 .site-container {
     width: 100vw;
@@ -62,16 +146,27 @@ main {
     overflow-y: scroll;
 }
 
+.chat-area .loading {
+    margin: auto;
+    width: fit-content;
+    position: relative;
+    top: 50%;
+}
+
+
+
 .message:nth-child(1) {
     margin-top: 26px;
 }
 
 .message {
-    height: 40px;
+    min-height: 40px;
+    height: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 5px;
+    word-break: break-all;
 }
 
 .message .container {
@@ -144,6 +239,11 @@ main {
 .input-area .container img {
     width: 26px;
 }
+
+
+
+
+/*-----------Side Menu CSS-----------*/
 
 aside{
     width: 100%;
@@ -219,8 +319,6 @@ aside{
     margin-right: 8px;
 }
 
-
-
 .side-menu .section.message-visibility .line img {
     width: 20px;
 }
@@ -232,8 +330,26 @@ aside{
 }
 
 
+
+
+
+
+
+
+/*-----------Javascript Manipulation Classes-----------*/
+
+
+
 .no-display {
     display: none;
+}
+
+.opacity-control-on {
+    opacity: 1;
+}
+
+.opacity-control-off {
+    opacity: 0;
 }
 
 .right-transition {
