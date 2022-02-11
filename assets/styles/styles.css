@@ -173,15 +173,15 @@ main {
     width: 95%;
 }
 
-.user-situation {
+.type-status {
     background-color: #dcdcdc;
 }
 
-.public-message {
+.type-message {
     background-color: #fff;
 }
 
-.private-message {
+.type-private_message {
     background-color: #FFDEDE;
 }
 
@@ -270,7 +270,7 @@ aside{
     background-color: #fff;
     position: relative;
     z-index: 2;
-
+    overflow-y: scroll;
 }
 
 .side-menu .text-container {
@@ -293,7 +293,13 @@ aside{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 
+}
+
+.side-menu .section.contacts {
+    height: fit-content;
+    overflow-y: scroll;
 }
 
 .side-menu .section .line {
@@ -343,6 +349,8 @@ aside{
 .no-display {
     display: none;
 }
+
+
 
 .opacity-control-on {
     opacity: 1;
