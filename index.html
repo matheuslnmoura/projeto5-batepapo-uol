@@ -43,6 +43,10 @@
                     <input type="text" placeholder="Escreva aqui...">
                     <button><img src="assets/media/send-message-icon.svg" alt="Button to Send Message" data-identifier="send-message"></button>
                 </div>
+                <div class="message-info-container">
+                    <span class="for" data-identifier="participant">para: <i><b>Todos</b></i></span>
+                    <span class="privacy" data-identifier="visibility">Visibilidade: <i><b>Público</b></i></span>
+                </div>
             </div>
 
         </main>
@@ -58,7 +62,7 @@
                     <div class="line" visibility="message">
                         <div class="flex-distribution">
                             <img src="assets/media/open-locker.svg" alt="Participants Icon">
-                            <span class="user-name">Publico</span>
+                            <span class="user-name" data-identifier="visibility">Publico</span>
                         </div>
                         <img class="public check-icon active" src="assets/media/check-icon.svg" alt="">
 
@@ -67,7 +71,7 @@
                     <div class="line" visibility="private_message">
                         <div class="flex-distribution">
                             <img src="assets/media/closed-locker.svg" alt="Participants Icon">
-                            <span class="user-name">Reservadamente</span>
+                            <span class="user-name" data-identifier="visibility">Reservadamente</span>
                         </div>
                         <img class="private check-icon no-display" src="assets/media/check-icon.svg" alt="">
 

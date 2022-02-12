@@ -157,7 +157,7 @@ function renderParticipants(participantsResponse) {
         <div class="line contact">
             <div class="flex-distribution">
                 <img src="assets/media/user-icon.svg" alt="Participants Icon">
-                <span class="user-name">${item.name}</span>
+                <span class="user-name" data-identifier="participant">${item.name}</span>
             </div>
             <img class="check-icon no-display" src="assets/media/check-icon.svg" alt="">
         </div>
@@ -202,7 +202,8 @@ function addressingClickEvent() {
     item.addEventListener("click", ()=>{
         clearInterval(onlineParticipantsInterval);
         messageAddressing="";
-        messageAddressing = item.querySelector('.user-name').innerHTML
+        messageAddressing = item.querySelector('.user-name').innerHTML;
+        messageInfoOverview();
 
         if (item.querySelector('.contacts .check-icon').classList.contains('no-display')) {
             if (document.querySelector('.contacts .check-icon.active') !== null){
@@ -232,10 +233,32 @@ function restoreDefaultMessageConfig() {
 
     typeOfMessage = "message";
     messageAddressing = "Todos";
+    messageInfoOverview();
+};
+
+function messageInfoOverview() {
+    let messageVisibility = "";
+
+    if(typeOfMessage === "message"){
+        messageVisibility = "Público";
+    } else {
+        messageVisibility = "Privada";
+    }
+
+    document.querySelector('.message-info-container').innerHTML = 
+    `
+    <span class="for">para: <i><b>${messageAddressing}</b></i></span>
+    <span class="privacy">Visibilidade: <i><b>${messageVisibility}</b></i></span>
+    `
 }
 
 
 document.querySelector('.login-screen button').addEventListener("click", verifyUserLogin);
+document.querySelector('.login-screen input').addEventListener('keypress', (e) =>{
+    if (e.key === 'Enter'){
+        verifyUserLogin();
+    }
+});
 
 document.querySelector('.site-overlay').addEventListener("click", hideSideMenu);
 
@@ -243,12 +266,20 @@ document.querySelector('header .container button').addEventListener("click", sho
 
 document.querySelector('.input-area .container button').addEventListener('click', sendUserMessage);
 
+document.querySelector('.input-area .container input').addEventListener('keypress', (e) =>{
+    if (e.key === 'Enter'){
+        sendUserMessage();
+    }
+});
+
+
 let messageVisibilityOptions = Array.from(document.querySelectorAll('.side-menu .message-visibility .line')); 
 
 messageVisibilityOptions.map((item)=>{
     item.addEventListener("click", ()=>{
         typeOfMessage="";
         typeOfMessage = item.getAttribute('visibility');
+        messageInfoOverview();
 
         if (item.querySelector('.message-visibility .check-icon').classList.contains('no-display')) {
             document.querySelector('.message-visibility .check-icon.active').classList.toggle('no-display');
