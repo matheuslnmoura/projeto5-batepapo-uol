@@ -306,13 +306,18 @@ aside{
 
 }
 
-.side-menu .section.contacts {
+.side-menu .section.contacts, 
+.side-menu .contacts.participants {
     height: fit-content;
-    overflow-y: scroll;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    width: 100%;
+}
+
+.side-menu .section.contacts .send-to-all {
+    width: 100%;
 }
 
 .side-menu .section .line {

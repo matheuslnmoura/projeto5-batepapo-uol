@@ -76,12 +76,14 @@ function informOnlineParticipants() {
 
 function loadPromises() {
     messagesPromise = axios.get('https://mock-api.driven.com.br/api/v4/uol/messages');
+    messagesPromise.then(createChatInterface);
+    messagesPromise.catch(displayLoadingErrorMessage);
     setInterval(()=>{
         messagesPromise = axios.get('https://mock-api.driven.com.br/api/v4/uol/messages');
         messagesPromise.then(createChatInterface);
-
-    }, 3000);
         messagesPromise.catch(displayLoadingErrorMessage);
+    }, 3000);
+        
 }
 
 
@@ -106,7 +108,7 @@ function createChatInterface(messagesPromiseResponse) {
                     </div>
                 </div>
                 `;
-            } else {
+            } else if (item.type !== "status") {
                 document.querySelector('.chat-area').innerHTML +=
                 `
                 <div class="message type-${item.type}" data-identifier = "message">
