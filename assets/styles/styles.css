@@ -166,7 +166,7 @@ main {
     justify-content: center;
     align-items: center;
     margin-bottom: 5px;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .message .container {
@@ -293,13 +293,16 @@ aside{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
 
 }
 
 .side-menu .section.contacts {
     height: fit-content;
     overflow-y: scroll;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .side-menu .section .line {
@@ -308,6 +311,11 @@ aside{
     justify-content: space-between;
     align-items: center;
     margin-bottom: 18px;
+    word-break: break-all;
+}
+
+.side-menu .section.contacts .line {
+    margin-left: 20px;
 }
 
 .side-menu .section .flex-distribution {

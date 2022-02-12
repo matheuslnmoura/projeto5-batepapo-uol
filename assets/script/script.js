@@ -5,6 +5,9 @@ let typeOfMessage = "message";
 let messageAddressing = "Todos";
 let participants = [];
 let messageObject = {};
+let onlineParticipantsInterval = null;
+
+let mapTeste =[];
 
 
 function verifyUserLogin() {
@@ -19,8 +22,8 @@ function verifyUserLogin() {
 function enterTheChatRoom() {
     document.querySelector('.login-screen').classList.add('no-display');
     document.querySelector('.site-container').classList.remove('no-display');
-    informOnlineParticipants()
-    informUserStatus()
+    informOnlineParticipants();
+    informUserStatus();
     loadPromises();
 }
 
@@ -58,8 +61,12 @@ function informUserStatus() {
 
 
 function informOnlineParticipants() {
-    setInterval(()=>{
-       let onlineParticipantsPromise = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
+    let onlineParticipantsPromise = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
+    onlineParticipantsPromise.then(renderParticipants);
+    onlineParticipantsPromise.catch(renderParticipantsError);
+    
+    onlineParticipantsInterval = setInterval(()=>{
+        onlineParticipantsPromise = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
         onlineParticipantsPromise.then(renderParticipants);
         onlineParticipantsPromise.catch(renderParticipantsError);
     }, 10000);
@@ -80,23 +87,39 @@ function loadPromises() {
 
 function createChatInterface(messagesPromiseResponse) {
     let messagesObject = messagesPromiseResponse.data
-    document.querySelector('.chat-area .loading').classList.add('no-display');
+    if(document.querySelector('.chat-area .loading') !== null){
+        document.querySelector('.chat-area .loading').classList.add('no-display');
+    }
+    document.querySelector('.chat-area').innerHTML = '';
     
-    messagesObject.map((item) => {
+    mapTeste = messagesObject.map((item) => {
         if(!(item.type === "private_message" && item.from !== userName && item.to !==userName)){
-            document.querySelector('.chat-area').innerHTML +=
-            `
-            <div class="message type-${item.type}" data-identifier = "message">
-                <div class="container">
-                    <span class="time-stamp">${item.time} </span>
-                    <span class="user-name"><b>${item.from}</b> </span>
-                    <span class="addressing">para <b>${item.to}</b></span>
-                    <span class="message-text">${item.text}</span>
+            if(item.type ==='private_message') {
+                document.querySelector('.chat-area').innerHTML +=
+                `
+                <div class="message type-${item.type}" data-identifier = "message">
+                    <div class="container">
+                        <span class="time-stamp">${item.time} </span>
+                        <span class="user-name"><b>${item.from}</b> </span>
+                        <span class="addressing">reservadamente para <b>${item.to}</b></span>
+                        <span class="message-text">${item.text}</span>
+                    </div>
                 </div>
-            </div>
-            `;
-        }
-        
+                `;
+            } else {
+                document.querySelector('.chat-area').innerHTML +=
+                `
+                <div class="message type-${item.type}" data-identifier = "message">
+                    <div class="container">
+                        <span class="time-stamp">${item.time} </span>
+                        <span class="user-name"><b>${item.from}</b> </span>
+                        <span class="addressing">para <b>${item.to}</b></span>
+                        <span class="message-text">${item.text}</span>
+                    </div>
+                </div>
+                `;
+            }
+        }  
     });
     
     scrollToBottom();
@@ -125,8 +148,11 @@ function showSideMenu() {
 
 function renderParticipants(participantsResponse) {
     participants = participantsResponse.data;
+    if (document.querySelector('.section.contacts .contacts.participants') !== null){
+        document.querySelector('.section.contacts .contacts.participants').innerHTML = '';
+    }
     participants.map((item)=>{
-        document.querySelector('.section.contacts').innerHTML +=
+        document.querySelector('.section.contacts .contacts.participants').innerHTML +=
         `
         <div class="line contact">
             <div class="flex-distribution">
@@ -161,30 +187,52 @@ function sendUserMessage() {
 
     axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", messageObject);
 
+    restoreDefaultMessageConfig()
+    informOnlineParticipants();
+
     document.querySelector('.input-area .container input').value = '';
   
 }
 
 function addressingClickEvent() {
+    console.log('Renderizou participantes');
     Array.from(document.querySelectorAll('.side-menu .contacts .line')); 
 
     Array.from(document.querySelectorAll('.side-menu .contacts .line')).map((item)=>{
     item.addEventListener("click", ()=>{
+        clearInterval(onlineParticipantsInterval);
         messageAddressing="";
         messageAddressing = item.querySelector('.user-name').innerHTML
 
         if (item.querySelector('.contacts .check-icon').classList.contains('no-display')) {
-            document.querySelector('.contacts .check-icon.active').classList.add('no-display');
-            document.querySelector('.contacts .check-icon.active').classList.remove('active');
+            if (document.querySelector('.contacts .check-icon.active') !== null){
+                document.querySelector('.contacts .check-icon.active').classList.add('no-display');
+                document.querySelector('.contacts .check-icon.active').classList.remove('active');
+    
+                item.querySelector('.contacts .check-icon').classList.remove('no-display');
+                item.querySelector('.contacts .check-icon').classList.add('active');
 
-            item.querySelector('.contacts .check-icon').classList.remove('no-display');
-            item.querySelector('.contacts .check-icon').classList.add('active');
+            } else {
+                restoreDefaultMessageConfig();
+            }
+
         } 
     });
 });
+};
+
+function restoreDefaultMessageConfig() {
+    document.querySelector('.contacts .send-to-all .check-icon').classList.remove('no-display');
+    document.querySelector('.contacts .send-to-all .check-icon').classList.add('active');
+
+    document.querySelector('.message-visibility .public.check-icon').classList.remove('no-display');
+    document.querySelector('.message-visibility .public.check-icon').classList.add('active');
+    document.querySelector('.message-visibility .private.check-icon').classList.add('no-display');
+    document.querySelector('.message-visibility .private.check-icon').classList.remove('active');
+
+    typeOfMessage = "message";
+    messageAddressing = "Todos";
 }
-
-
 
 
 document.querySelector('.login-screen button').addEventListener("click", verifyUserLogin);
@@ -203,11 +251,11 @@ messageVisibilityOptions.map((item)=>{
         typeOfMessage = item.getAttribute('visibility');
 
         if (item.querySelector('.message-visibility .check-icon').classList.contains('no-display')) {
-            document.querySelector('.message-visibility .check-icon.active').classList.add('no-display');
-            document.querySelector('.message-visibility .check-icon.active').classList.remove('active');
+            document.querySelector('.message-visibility .check-icon.active').classList.toggle('no-display');
+            document.querySelector('.message-visibility .check-icon.active').classList.toggle('active');
 
-            item.querySelector('.message-visibility .check-icon').classList.remove('no-display');
-            item.querySelector('.message-visibility .check-icon').classList.add('active');
+            item.querySelector('.message-visibility .check-icon').classList.toggle('no-display');
+            item.querySelector('.message-visibility .check-icon').classList.toggle('active');
         } 
     });
 });
