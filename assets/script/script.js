@@ -108,7 +108,7 @@ function createChatInterface(messagesPromiseResponse) {
                     </div>
                 </div>
                 `;
-            } else if (item.type !== "status") {
+            } else /*if (item.type !== "status")*/ {
                 document.querySelector('.chat-area').innerHTML +=
                 `
                 <div class="message type-${item.type}" data-identifier = "message">
@@ -185,19 +185,27 @@ function sendUserMessage() {
         to: messageAddressing,
         text: userMessage,
         type: typeOfMessage
-    }
+    };
 
-    axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", messageObject);
+    let sendMessagePromise = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", messageObject);
 
-    restoreDefaultMessageConfig()
+    sendMessagePromise.catch(sendMessageError);
+
+    restoreDefaultMessageConfig();
     informOnlineParticipants();
 
     document.querySelector('.input-area .container input').value = '';
   
 }
 
+function sendMessageError(){
+    alert("Você não está mais online. Por favor, faça o login novamente.");
+    setTimeout(()=>{
+        window.location.reload();
+    }, 500);
+};
+
 function addressingClickEvent() {
-    console.log('Renderizou participantes');
     Array.from(document.querySelectorAll('.side-menu .contacts .line')); 
 
     Array.from(document.querySelectorAll('.side-menu .contacts .line')).map((item)=>{
